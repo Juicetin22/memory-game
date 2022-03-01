@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import './index.scss'
-import { useState, useEffect } from 'react';
 import Card from './Card';
+import { Modal } from 'react-bootstrap';
+import Confetti from 'react-confetti';
 
 const cardImages = [
   { "src": "https://img.icons8.com/cotton/512/000000/cat--v4.png", matched: false },
@@ -21,6 +23,10 @@ const SimpleMemoryIndex = () => {
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   // shuffle cards and add an id to each card every new game
   const shuffleCards = () => {
@@ -50,6 +56,7 @@ const SimpleMemoryIndex = () => {
     setChoiceTwo(null);
     setTurns(prev => prev + 1);
     setDisabled(false);
+    setShow(false);
   };
 
   // compare two selected cards
@@ -79,6 +86,16 @@ const SimpleMemoryIndex = () => {
     shuffleCards();
   }, []);
 
+  useEffect(() => {
+    for (const card of cards) {
+      if (!card.matched) {
+        return null;
+      }
+    }
+    turns ? setShow(true) : setShow(false);
+
+  }, [cards]);
+
   const displayCards = cards.map(card => {
     return (
       <Card 
@@ -93,13 +110,24 @@ const SimpleMemoryIndex = () => {
 
   return (
     <>
-      <h1>Simple Memory</h1>
+      <h2>Matching Memory Game</h2>
       <button onClick={shuffleCards}>New Game</button>
+
+      <Modal show={show} onHide={handleClose} className="win" animation={false} >
+        <Modal.Header closeButton className="win-header" >
+        </Modal.Header>
+        <Modal.Body>
+          <Confetti />
+          <h4>Congratulations!</h4>
+          <p>You finished in <strong>{turns} turns</strong>.</p>
+          <p>Thank you for playing and try again to decrease your turn count! 😊</p>
+        </Modal.Body>
+      </Modal>
 
       <div className='card-grid'>
         {displayCards}
       </div>
-      <p>Turns: {turns}</p>
+      <p onClick={handleShow}>Turns: {turns}</p>
     </>
   );
 }
