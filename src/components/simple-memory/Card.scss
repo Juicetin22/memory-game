@@ -1,0 +1,38 @@
+.card {
+  position: relative;
+  background-color: rgb(212, 224, 255);
+}
+
+.card img {
+  width: 100%;
+  display: block;
+  border: 2px solid white;
+  border-radius: 6px;
+}
+
+/* front of card - the picture */
+/* make the picture sit behind or in front of cover */
+/* absolute position makes it sit on top of the back but
+ we can't see it beside it's rotated 90*/
+.card .front {
+  transform: rotateY(90deg);
+  transition: all ease-in 0.2s;
+  position: absolute;
+  background-color: white;
+}
+
+.flipped .front {
+  transform: rotateY(0deg);
+  transition-delay: 0.2s;
+}
+
+/* backof card - cover */
+.card .back {
+  transition: all ease-in 0.2s;
+  transition-delay: 0.2s;
+}
+
+.flipped .back {
+  transform: rotateY(90deg);
+  transition-delay: 0s;
+}
