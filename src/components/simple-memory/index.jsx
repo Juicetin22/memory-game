@@ -56,6 +56,7 @@ const SimpleMemoryIndex = () => {
     setChoiceTwo(null);
     setTurns(prev => prev + 1);
     setDisabled(false);
+    setShow(false);
   };
 
   // compare two selected cards
@@ -85,13 +86,15 @@ const SimpleMemoryIndex = () => {
     shuffleCards();
   }, []);
 
-  // useEffect(() => {
-  //   for (const card of cards) {
-  //     if (!card.matched) {
-  //       return null;
-  //     }
-  //   }
-  // }, [cards]);
+  useEffect(() => {
+    for (const card of cards) {
+      if (!card.matched) {
+        return null;
+      }
+    }
+    turns ? setShow(true) : setShow(false);
+
+  }, [cards]);
 
   const displayCards = cards.map(card => {
     return (
@@ -107,17 +110,17 @@ const SimpleMemoryIndex = () => {
 
   return (
     <>
-      <h1>Simple Memory</h1>
+      <h2>Matching Memory Game</h2>
       <button onClick={shuffleCards}>New Game</button>
 
       <Modal show={show} onHide={handleClose} className="win" animation={false} >
-        <Modal.Header closeButton >
+        <Modal.Header closeButton className="win-header" >
         </Modal.Header>
         <Modal.Body>
           <Confetti />
           <h4>Congratulations!</h4>
-          <p>You finished in {turns} turns.</p>
-          <p>Try to beat your score and thanks for playing!</p>
+          <p>You finished in <strong>{turns} turns</strong>.</p>
+          <p>Thank you for playing and try again to decrease your turn count! 😊</p>
         </Modal.Body>
       </Modal>
 
