@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import SimpleMemoryIndex from './components/simple-memory';
 
