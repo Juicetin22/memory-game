@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import Home from './components/Home';
-import SimpleMemoryIndex from './components/simple-memory';
 import { Routes, Route, Link } from "react-router-dom";
-import { Button } from 'react-bootstrap';
+import SimpleMemoryIndex from './components/simple-memory';
+import NumberMemoryIndex from './components/number-memory';
+import MemoraddIndex from './components/memoradd';
 
 function App() {
   return (
@@ -11,6 +12,8 @@ function App() {
       <Routes>
         <Route path={'/'} element={<Home />} />
         <Route path={'/matching-cards'} element={<SimpleMemoryIndex />} />
+        <Route path={'/numbers'} element={<NumberMemoryIndex />} />
+        <Route path={'/memoradd'} element={<MemoraddIndex />} />
       </Routes>
     </div>
   );
