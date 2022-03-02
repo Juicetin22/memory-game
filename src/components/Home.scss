@@ -1,8 +1,10 @@
 .home {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.game-options {
-  display: flex;
-  justify-content: space-between;
+.icons-link {
+  font-size: 75%;
 }
