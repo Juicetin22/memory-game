@@ -1,0 +1,8 @@
+.number-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+  width: 90%;
+  margin-left: 80px;
+  margin-right: auto;
+}
