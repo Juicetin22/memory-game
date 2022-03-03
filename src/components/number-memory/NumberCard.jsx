@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import './NumberCard.scss';
-import ReactCardFlip from 'react-card-flip';
+import React, { useState, useEffect } from "react";
+import "./NumberCard.scss";
+import ReactCardFlip from "react-card-flip";
 
 const NumberCard = (props) => {
   const { card, setValue, end } = props;
