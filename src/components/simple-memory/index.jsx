@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import './index.scss'
-import Card from './Card';
-import { Modal } from 'react-bootstrap';
-import Confetti from 'react-confetti';
+import React, { useState, useEffect } from "react";
+import "./index.scss"
+import Card from "./Card";
+import { Modal } from "react-bootstrap";
+import Confetti from "react-confetti";
+import { Link } from "react-router-dom";
 
 const cardImages = [
   { "src": "https://img.icons8.com/cotton/512/000000/cat--v4.png", matched: false },
@@ -17,7 +18,6 @@ const cardImages = [
 ];
 
 const SimpleMemoryIndex = () => {
-
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
@@ -110,9 +110,12 @@ const SimpleMemoryIndex = () => {
 
   return (
     <>
-      <h2>Matching Memory Game</h2>
-      <button onClick={shuffleCards}>New Game</button>
-
+      <div className="top">
+        <Link to="/" className="link"><button className="back-button">← Back</button></Link>
+        <h4>Matching Memory Game</h4>
+        <button onClick={shuffleCards} className="new-game">New Game</button>
+      </div>
+      
       <Modal show={show} onHide={handleClose} className="win" animation={false} >
         <Modal.Header closeButton className="win-header" >
         </Modal.Header>
@@ -124,7 +127,7 @@ const SimpleMemoryIndex = () => {
         </Modal.Body>
       </Modal>
 
-      <div className='card-grid'>
+      <div className='matching-card-grid'>
         {displayCards}
       </div>
       <p onClick={handleShow}>Turns: {turns}</p>
