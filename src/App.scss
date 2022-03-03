@@ -1,3 +1,31 @@
 body {
   background-color: rgb(255, 239, 255);
+
+}
+
+.link {
+  text-decoration: none;
+  height: fit-content;
+  width: fit-content;
+  
+  &:focus, &:hover, &:visited, &:link, &:active {
+    text-decoration: none;
+  }
+}
+
+.link-button {
+  color: rgb(50, 133, 182);
+
+
+}
+
+.back-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  &:focus, &:hover, &:visited, &:link, &:active {
+    background: transparent;
+    color: rgb(197, 197, 197);
+  }
 }
