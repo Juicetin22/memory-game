@@ -1,5 +1,5 @@
-import React from 'react';
-import './Card.scss';
+import React from "react";
+import "./Card.scss";
 
 const SingleCard = (props) => {
   const { card, handleChoice, flipped, disabled } = props;
@@ -11,7 +11,7 @@ const SingleCard = (props) => {
   };
 
   return (
-    <div className='card'>
+    <div className='matching-card'>
       <div className={ flipped ? "flipped" : "" }>
         <img src={card.src} className="front" alt="card front" />
         <img 
