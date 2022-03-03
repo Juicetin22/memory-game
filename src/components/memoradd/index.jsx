@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './index.scss';
 import MemoraddCard from "./MemoraddCard";
+import { Link } from "react-router-dom";
 
 const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/1.png", "value": 1 },
@@ -16,13 +17,16 @@ const cardNumbers = [
 const cardNine = { "src": "https://img.icons8.com/small/512/000000/9.png", "value": 9 }
 
 const MemoraddIndex = () => {
-  
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [score, setScore] = useState(0);
+
   // shuffle cards and add an id to each card every new game
   const shuffleCards = () => {
     const shuffledCards = [...cardNumbers, ...cardNumbers, ...cardNumbers]
-      .sort(() => Math.random() - 0.5)
+      .map(card => ({ card, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ card }) => card)
       .map((card) => ({ ...card, id: Math.random() }));
 
     setCards(shuffledCards);
@@ -44,8 +48,12 @@ const MemoraddIndex = () => {
   
   return (
     <>
-      <div>HI</div>
-      <div className="number-grid">
+      <div className="top">
+        <Link to="/" className="link"><button className="back-button">← Back</button></Link>
+        <h4>Number Memory Game</h4>
+        <button onClick={shuffleCards} className="new-game">New Game</button>
+      </div>
+      <div className="memoradd-grid">
         {displayNumbers}
         <MemoraddCard key={9} card={cardNine} />
       </div>
