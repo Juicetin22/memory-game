@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './index.scss';
+import "./index.scss";
 import NumberCard from "./NumberCard";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -25,9 +25,7 @@ const cardNumbers = [
 
 
 const NumberMemoryIndex = () => {
-  
   const [cards, setCards] = useState([]);
-  const [turns, setTurns] = useState(0);
   const [value, setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
   const [finish, setFinish] = useState(false);
@@ -48,21 +46,19 @@ const NumberMemoryIndex = () => {
     setValue(0);
     setPrevValue(0);
     setCards(shuffledCards);
-    setTurns(0);
     setShow(false);
     setFinish(false);
     setEnd(false);
   };
 
   useEffect(() => {
-    if (value === 9 && turns === 8) {
+    if (value === 9 && prevValue === 8) {
       setFinish(true);
       handleShow();
     }
 
     if (value === prevValue + 1) {
       setPrevValue(prev => prev + 1);
-      setTurns(prev => prev + 1);
     } else {
       return value ? handleShow() : null
     }
@@ -91,9 +87,9 @@ const NumberMemoryIndex = () => {
   return (
     <div>
       <div className="top">
-        <button><Link to="/">← Back</Link></button>
+        <Link to="/" className="link"><button className="back-button">← Back</button></Link>
         <h4>Number Memory Game</h4>
-        <button onClick={shuffleCards}>New Game</button>
+        <button onClick={shuffleCards} className="new-game">New Game</button>
       </div>
       <div className="number-grid">
         {displayNumbers}
@@ -107,7 +103,7 @@ const NumberMemoryIndex = () => {
               <Confetti />
               <p>Congratulations on finishing!</p>
             </div> : 
-            <p>You managed to flip <strong>{turns} card(s)</strong>.</p>
+            <p>You managed to correctly flip <strong>{prevValue} card(s)</strong>.</p>
           }
           <p>Thank you for playing and feel free to try again! 😊</p>
         </Modal.Body>
