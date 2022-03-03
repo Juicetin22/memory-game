@@ -25,6 +25,9 @@ const NumberMemoryIndex = () => {
   
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [value, setValue] = useState(0);
+  const [prevValue, setPrevValue] = useState(0);
+
   // shuffle cards and add an id to each card every new game
   const shuffleCards = () => {
     const shuffledCards = [...cardNumbers]
@@ -37,26 +40,35 @@ const NumberMemoryIndex = () => {
     setTurns(0);
   };
 
+  useEffect(() => {
+    if (value === prevValue + 1) {
+      setPrevValue(prev => prev + 1);
+    } else {
+      console.log("NOT HI");
+    }
+  }, [value])
+
+  useEffect(() => {
+    shuffleCards();
+  }, []);
+
   const displayNumbers = cards.map(card => {
     return (
       <NumberCard 
         key={card.id}
         card={card}
+        setValue={setValue}
       />
     )
   })
-
-  useEffect(() => {
-    shuffleCards();
-  }, []);
   
   return (
-    <>
+    <div className="number-game">
       <div>HI</div>
       <div className="number-grid">
         {displayNumbers}
       </div>
-    </>
+    </div>
   )
 }
 
