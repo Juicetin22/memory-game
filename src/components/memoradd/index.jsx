@@ -25,6 +25,7 @@ const MemoraddIndex = () => {
   const [prevValue, setPrevValue] = useState(0);
   const [score, setScore] = useState(0);
   const [help, setHelp] = useState(3);
+  const [reveal, setReveal] = useState(false);
 
   // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
@@ -40,12 +41,21 @@ const MemoraddIndex = () => {
     setPrevValue(0);
     setScore(0);
     setHelp(3);
+    setReveal(false);
   };
 
+  // set reveal to pass down to card component; decrease help counter by one
+  const showCards = () => {
+    setReveal(true);
+    setHelp(prev => prev - 1);
+  }
+
+  // start the game when app loads
   useEffect(() => {
     shuffleCards();
   }, []);
   
+  // if value is the same or one more than previous value, basically continue the game
   useEffect(() => {
     if (value === prevValue || value === prevValue + 1) {
       setPrevValue(value);
@@ -60,8 +70,10 @@ const MemoraddIndex = () => {
       <MemoraddCard 
         key={card.id}
         card={card}
+        reveal={reveal}
         setValue={setValue}
         setTurn={setTurn}
+        setReveal={setReveal}
       />
     )
   })
@@ -84,7 +96,7 @@ const MemoraddIndex = () => {
               <p>Turn: {turn}</p>
             </Card.Body>
           </Card>
-          <button>Show Cards</button>
+          <button onClick={showCards} disabled={reveal || !help}>Show Cards</button>
           <p>Left: {help}</p>
         </div>
       </div>
