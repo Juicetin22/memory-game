@@ -3,7 +3,7 @@ import './MemoraddCard.scss';
 import ReactCardFlip from "react-card-flip";
 
 const NumberCard = (props) => {
-  const { card, setValue, setTurn } = props;
+  const { card, reveal, setValue, setTurn, setReveal } = props;
 
   const [flipped, setFlipped] = useState(false);
 
@@ -18,6 +18,17 @@ const NumberCard = (props) => {
       setFlipped(!flipped);
     }, 1000);
   }, [])
+
+  // flip the card if reveal prop is true and it is not the front; then flip back after set time
+  useEffect(() => {
+    if (reveal && flipped) {
+      setFlipped(!flipped);
+      setTimeout(() => {
+        setFlipped(flipped);
+        setReveal(false);
+      }, 3000);
+    }
+  }, [reveal])
 
   return (
     <div className="memoradd">
