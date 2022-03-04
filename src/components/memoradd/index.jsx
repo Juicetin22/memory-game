@@ -21,10 +21,12 @@ const cardZero = { "src": "https://img.icons8.com/small/512/26e07f/0.png", "valu
 const MemoraddIndex = () => {
   const [cards, setCards] = useState([]);
   const [turn, setTurn] = useState(0);
+  const [value, setValue] = useState(0);
+  const [prevValue, setPrevValue] = useState(0);
   const [score, setScore] = useState(0);
   const [help, setHelp] = useState(3);
 
-  // shuffle cards and add an id to each card every new game
+  // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
     const shuffledCards = [...cardNumbers, ...cardNumbers, ...cardNumbers, cardZero]
       .map(card => ({ card, sort: Math.random() }))
@@ -34,20 +36,35 @@ const MemoraddIndex = () => {
 
     setCards(shuffledCards);
     setTurn(0);
+    setValue(0);
+    setPrevValue(0);
+    setScore(0);
+    setHelp(3);
   };
+
+  useEffect(() => {
+    shuffleCards();
+  }, []);
+  
+  useEffect(() => {
+    if (value === prevValue || value === prevValue + 1) {
+      setPrevValue(value);
+      setScore(prev => prev + value); 
+    } else {
+      return null;
+    }
+  }, [turn]);
 
   const displayNumbers = cards.map(card => {
     return (
       <MemoraddCard 
         key={card.id}
         card={card}
+        setValue={setValue}
+        setTurn={setTurn}
       />
     )
   })
-
-  useEffect(() => {
-    shuffleCards();
-  }, []);
   
   return (
     <>
