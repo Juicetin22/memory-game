@@ -25,6 +25,7 @@ const NumberCard = (props) => {
         <img 
           src={card.src} 
           alt="number-front" 
+          // className="number-front"
         />
         <img 
           src="https://img.icons8.com/glyph-neue/512/000000/christmas-penguin.png" 

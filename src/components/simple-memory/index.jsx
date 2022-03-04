@@ -122,7 +122,7 @@ const SimpleMemoryIndex = () => {
         <Modal.Body>
           <Confetti />
           <h4>Congratulations!</h4>
-          <p>You finished in <strong>{turns} turns</strong>.</p>
+          <p>You finished in <strong>{turns} turn(s)</strong>.</p>
           <p>Thank you for playing and try again to decrease your turn count! 😊</p>
         </Modal.Body>
       </Modal>
