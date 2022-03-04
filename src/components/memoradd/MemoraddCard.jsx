@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MemoraddCard.scss';
 import ReactCardFlip from "react-card-flip";
 
 const NumberCard = (props) => {
-  const { card } = props;
+  const { card, setValue, setTurn } = props;
 
   const [flipped, setFlipped] = useState(false);
 
   const handleFlip = () => {
     setFlipped(!flipped);
+    setValue(card.value);
+    setTurn(prev => prev + 1);
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFlipped(!flipped);
+    }, 1000);
+  }, [])
 
   return (
     <div className="memoradd">
@@ -17,7 +25,6 @@ const NumberCard = (props) => {
         <img 
           src={card.src} 
           alt="memoradd-front" 
-          onClick={handleFlip}
         />
         <img 
           src="https://img.icons8.com/ios/500/000000/duck.png" 
