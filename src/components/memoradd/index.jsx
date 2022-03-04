@@ -26,6 +26,7 @@ const MemoraddIndex = () => {
   const [score, setScore] = useState(0);
   const [help, setHelp] = useState(3);
   const [reveal, setReveal] = useState(false);
+  const [lives, setLives] = useState(3);
 
   // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
@@ -42,6 +43,7 @@ const MemoraddIndex = () => {
     setScore(0);
     setHelp(3);
     setReveal(false);
+    setLives(3);
   };
 
   // set reveal to pass down to card component; decrease help counter by one
@@ -57,19 +59,31 @@ const MemoraddIndex = () => {
   
   // if value is the same or one more than previous value, basically continue the game
   useEffect(() => {
+    // if value set in component is equal to the previous value or more by one, set previous value to the current value and increase the score
+    // if card value is not equal to or more than prevValue by one, lose one life and reset the current value to previous value
     if (value === prevValue || value === prevValue + 1) {
       setPrevValue(value);
       setScore(prev => prev + value); 
     } else {
-      return null;
+      setLives(prev => prev - 1);
+      setValue(prevValue);
     }
   }, [turn]);
+
+  useEffect(() => {
+    // if user has no lives or previous value is 10, the game ends
+    // note that we cannot use value instead, because value is always set regardless of clicking sequence, but prevValue is only set when user is correctly clicking the numbers in order
+    if (lives === 0 || prevValue === 10) {
+      alert("POO");
+    }
+  }, [lives, prevValue])
 
   const displayNumbers = cards.map(card => {
     return (
       <MemoraddCard 
         key={card.id}
         card={card}
+        value={value}
         reveal={reveal}
         setValue={setValue}
         setTurn={setTurn}
@@ -94,9 +108,10 @@ const MemoraddIndex = () => {
             <Card.Body>
               <p>Current Score: {score} </p>
               <p>Turn: {turn}</p>
+              <p>Lives: {lives} </p>
             </Card.Body>
           </Card>
-          <button onClick={showCards} disabled={reveal || !help}>Show Cards</button>
+          <button onClick={showCards} disabled={reveal || !help} className="show-cards">Show Cards</button>
           <p>Left: {help}</p>
         </div>
       </div>
