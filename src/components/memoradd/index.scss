@@ -26,4 +26,23 @@
 .show-cards {
   border: 2px solid rgb(194, 191, 196);
   background-color: transparent;
+
+  &:hover {
+    background-color: rgb(185, 157, 221);
+    color: white;
+  }
+}
+
+.memoradd-result {
+  background: transparent;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.memoradd-result-header {
+  height: 0.5em;
+}
+
+.o {
+  color: rgba(38, 224, 100, 0.884);
 }
