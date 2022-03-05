@@ -130,7 +130,7 @@ const SimpleMemoryIndex = () => {
       <div className='matching-card-grid'>
         {displayCards}
       </div>
-      <p onClick={handleShow}>Turns: {turns}</p>
+      <p>Turns: {turns}</p>
     </>
   );
 }
