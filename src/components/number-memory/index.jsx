@@ -27,7 +27,9 @@ const cardNumbers = [
 const NumberMemoryIndex = () => {
   const [cards, setCards] = useState([]);
   const [value, setValue] = useState(0);
+  const [turn, setTurn] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
+  const [lives, setLives] = useState(2);
   const [finish, setFinish] = useState(false);
   const [end, setEnd] = useState(false);
   const [show, setShow] = useState(false);
@@ -44,7 +46,9 @@ const NumberMemoryIndex = () => {
       .map((card) => ({ ...card, id: Math.random() }));
 
     setValue(0);
+    setTurn(0);
     setPrevValue(0);
+    setLives(2);
     setCards(shuffledCards);
     setShow(false);
     setFinish(false);
@@ -59,15 +63,22 @@ const NumberMemoryIndex = () => {
 
     if (value === prevValue + 1) {
       setPrevValue(prev => prev + 1);
-    } else {
-      return value ? handleShow() : null
+    } else if (value) {
+      setLives(prev => prev - 1);
+      setValue(prevValue);
     }
 
-  }, [value])
+  }, [turn])
 
   useEffect(() => {
     shuffleCards();
   }, []);
+
+  useEffect(() => {
+    if (lives === 0) {
+      handleShow();
+    }
+  }, [lives])
 
   useEffect(() => {
     value ? setEnd(true) : setEnd(false)
@@ -78,7 +89,10 @@ const NumberMemoryIndex = () => {
       <NumberCard 
         key={card.id}
         card={card}
+        value={value}
+        setTurn={setTurn}
         setValue={setValue}
+        lives={lives}
         end={end}
       />
     )
@@ -94,6 +108,7 @@ const NumberMemoryIndex = () => {
       <div className="number-grid">
         {displayNumbers}
       </div>
+      <p>Lives: {lives}</p>
       <Modal show={show} onHide={handleClose} className="number-result" animation={false} >
         <Modal.Header closeButton className="number-result-header" >
         </Modal.Header>
