@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import './index.scss';
 import MemoraddCard from "./MemoraddCard";
 import { Link } from "react-router-dom";
-import { Card } from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
+import Confetti from "react-confetti";
 
 const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/1.png", "value": 1 },
@@ -24,9 +25,14 @@ const MemoraddIndex = () => {
   const [value, setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
   const [score, setScore] = useState(0);
-  const [help, setHelp] = useState(3);
+  const [help, setHelp] = useState(2);
   const [reveal, setReveal] = useState(false);
   const [lives, setLives] = useState(3);
+  const [transition, setTransition] = useState(true);
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
   // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
@@ -41,9 +47,11 @@ const MemoraddIndex = () => {
     setValue(0);
     setPrevValue(0);
     setScore(0);
-    setHelp(3);
+    setHelp(2);
     setReveal(false);
     setLives(3);
+    setTransition(true);
+    handleClose();
   };
 
   // set reveal to pass down to card component; decrease help counter by one
@@ -74,7 +82,8 @@ const MemoraddIndex = () => {
     // if user has no lives or previous value is 10, the game ends
     // note that we cannot use value instead, because value is always set regardless of clicking sequence, but prevValue is only set when user is correctly clicking the numbers in order
     if (lives === 0 || prevValue === 10) {
-      alert("POO");
+      handleShow();
+      setReveal(true);
     }
   }, [lives, prevValue])
 
@@ -85,9 +94,13 @@ const MemoraddIndex = () => {
         card={card}
         value={value}
         reveal={reveal}
+        lives={lives}
+        show={show}
+        transition={transition}
         setValue={setValue}
         setTurn={setTurn}
         setReveal={setReveal}
+        setTransition={setTransition}
       />
     )
   })
@@ -96,7 +109,7 @@ const MemoraddIndex = () => {
     <>
       <div className="top">
         <Link to="/" className="link"><button className="back-button">← Back</button></Link>
-        <h4>Memoradd</h4>
+        <h4>Mem<span className="o">0</span>radd</h4>
         <button onClick={shuffleCards} className="new-game">New Game</button>
       </div>
       <div className="memoradd-body">
@@ -111,10 +124,21 @@ const MemoraddIndex = () => {
               <p>Lives: {lives} </p>
             </Card.Body>
           </Card>
-          <button onClick={showCards} disabled={reveal || !help} className="show-cards">Show Cards</button>
+          <button onClick={showCards} disabled={reveal || !help || transition} className="show-cards">Show Cards</button>
           <p>Left: {help}</p>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose} className="memoradd-result" animation={false} >
+        <Modal.Header closeButton className="memoradd-result-header" >
+        </Modal.Header>
+        <Modal.Body>
+          <Confetti width="500"/>
+          <p>Nice work!</p>
+          <p>Your total score was <strong>{score}</strong>.</p>
+          <p>Thanks for playing and feel free to try again! 😊</p>
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

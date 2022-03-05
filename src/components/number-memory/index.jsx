@@ -100,7 +100,7 @@ const NumberMemoryIndex = () => {
         <Modal.Body>
           { finish ? 
             <div>
-              <Confetti />
+              <Confetti width="500"/>
               <p>Congratulations on finishing!</p>
             </div> : 
             <p>You managed to correctly flip <strong>{prevValue} card(s)</strong>.</p>
