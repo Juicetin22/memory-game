@@ -9,11 +9,11 @@
   display: block;
   border: 2px solid white;
   border-radius: 6px;
-}
 
-// .number-front {
-//   background-color: white;
-// }
+  &.opened {
+    border: 3px solid rgb(0, 0, 0);
+  }
+}
 
 .end {
   pointer-events: none;
