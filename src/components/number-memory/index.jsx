@@ -134,7 +134,7 @@ const NumberMemoryIndex = () => {
               <Tooltip id="overlay-example" {...props}>
                 How to play:
                 <div className="rules">
-                  <p><strong>Numbers</strong> - Memorize the placement of the cards. Once they are face down, try to flip the cards in the correct order starting from 1 all the way to 9. Be careful flipping the X cards!</p>
+                  <p>- Memorize the placement of the cards. Once they are face down, try to flip the cards in the correct order starting from 1 all the way to 9. Be careful flipping the X cards!</p>
                 </div>
               </Tooltip>
             )}

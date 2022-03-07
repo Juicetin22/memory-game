@@ -131,7 +131,7 @@ const SimpleMemoryIndex = () => {
               <Tooltip id="overlay-example" {...props}>
                 How to play:
                 <div className="rules">
-                  <p><strong>Matching Cards</strong> - Flip over two cards at a time and get them to match. Try to get all the pairs to match with the fewest turns possible!</p>
+                  <p>- Flip over two cards at a time and get them to match. Try to get all the pairs to match with the fewest turns possible!</p>
                 </div>
               </Tooltip>
             )}
