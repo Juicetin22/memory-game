@@ -5,6 +5,7 @@ import { Modal, Button, Overlay, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Confetti from "react-confetti";
 
+// list of cards
 const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/1.png", "value": 1 },
   { "src": "https://img.icons8.com/small/512/000000/2.png", "value": 2 },
@@ -23,24 +24,33 @@ const cardNumbers = [
   { "src": "https://img.icons8.com/material/480/fa314a/ksi.png", "value": 600 }
 ];
 
-
 const NumberMemoryIndex = () => {
+  // states that get updated as the game goes on
   const [cards, setCards] = useState([]);
-  const [value, setValue] = useState(0);
   const [turn, setTurn] = useState(0);
+  const [value, setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
+
+  // state with initial value that decrease as the game goes on
   const [lives, setLives] = useState(2);
+
+  // states that affect the display of the game
+  // when true, displays winning modal message
   const [finish, setFinish] = useState(false);
+  // signifies end of the game
   const [end, setEnd] = useState(false);
+
+  // state and functions for game-end modal
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
+  // state and variable for help button
   const [helpShow, setHelpShow] = useState(false);
   const target = useRef(null);
 
-  // shuffle cards and add an id to each card every new game
+  // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
     const shuffledCards = [...cardNumbers]
       .map(card => ({ card, sort: Math.random() }))
@@ -58,12 +68,16 @@ const NumberMemoryIndex = () => {
     setEnd(false);
   };
 
+  // gets run each turn
   useEffect(() => {
+    // if card number 9 gets flipped in order, set finish state to true and show modal
     if (value === 9 && prevValue === 8) {
       setFinish(true);
       handleShow();
     }
 
+    // if card flip is in correct order, increase prevValue by 1
+    // if incorrect card is flipped, decrease lives by 1, set value back to previous value (which is stored in prevValue)
     if (value === prevValue + 1) {
       setPrevValue(prev => prev + 1);
     } else if (value) {
@@ -73,20 +87,24 @@ const NumberMemoryIndex = () => {
 
   }, [turn])
 
+  // start the game
   useEffect(() => {
     shuffleCards();
   }, []);
 
+  // if lives reach 0, show modal
   useEffect(() => {
     if (lives === 0) {
       handleShow();
     }
   }, [lives])
 
+  // when modal is shown, set end state to true, which gets passed down to NumberCard component
   useEffect(() => {
     turn ? setEnd(true) : setEnd(false)
   }, [show])
 
+  // map each card in the cards array and pass down props to the NumberCard component
   const displayNumbers = cards.map(card => {
     return (
       <NumberCard 
@@ -131,6 +149,7 @@ const NumberMemoryIndex = () => {
         <Modal.Header closeButton className="number-result-header" >
         </Modal.Header>
         <Modal.Body>
+          {/* show different message depending on whether finish state is set to true */}
           { finish ? 
             <div>
               <Confetti width="500"/>

@@ -2,8 +2,10 @@ import React from "react";
 import "./Card.scss";
 
 const SingleCard = (props) => {
+  // props passed down from index
   const { card, handleChoice, flipped, disabled } = props;
 
+  // if card is not disabled, call handleChoice function
   const handleClick = () => {
     if (!disabled) {
       handleChoice(card);

@@ -6,6 +6,7 @@ import { Card, Modal, Button, Overlay, Tooltip } from "react-bootstrap";
 import Confetti from "react-confetti";
 import classNames from "classnames";
 
+// list of cards
 const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/1.png", "value": 1 },
   { "src": "https://img.icons8.com/small/512/000000/2.png", "value": 2 },
@@ -18,25 +19,35 @@ const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/9.png", "value": 9 }
 ];
 
+// card with number 0; not part of mapped number array below
 const cardZero = { "src": "https://img.icons8.com/small/512/26e07f/0.png", "value": 10 };
 
 const MemoraddIndex = () => {
+  // states that get updated as the game goes on
   const [cards, setCards] = useState([]);
   const [turn, setTurn] = useState(0);
   const [value, setValue] = useState(0);
   const [prevValue, setPrevValue] = useState(0);
   const [score, setScore] = useState(0);
-  const [help, setHelp] = useState(2);
-  const [reveal, setReveal] = useState(false);
-  const [lives, setLives] = useState(3);
-  const [transition, setTransition] = useState(true);
   const [history, setHistory] = useState([]);
+  
+  // states with initial values that decrease as the game goes on
+  const [help, setHelp] = useState(2);
+  const [lives, setLives] = useState(3);
+  
+  // states that affect the display of the game
+  // reveal flips cards that are faced down
+  const [reveal, setReveal] = useState(false);
+  // prevents other cards from being flipped when current card is being flipped, set as true upon beginning new game
+  const [transition, setTransition] = useState(true);
 
+  // state and functions for game-end modal
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
+  // state and variable for help button
   const [helpShow, setHelpShow] = useState(false);
   const target = useRef(null);
 
@@ -61,20 +72,20 @@ const MemoraddIndex = () => {
     handleClose();
   };
 
-  // set reveal to pass down to card component; decrease help counter by one
+  // set reveal to pass down to card component; decrease help/show cards counter by one
   const showCards = () => {
     setReveal(true);
     setHelp(prev => prev - 1);
   }
 
-  // start the game when app loads
+  // start the game
   useEffect(() => {
     shuffleCards();
   }, []);
   
   // if value is the same or one more than previous value, basically continue the game
   useEffect(() => {
-    // if value set in component is equal to the previous value or more by one, set previous value to the current value and increase the score
+    // if value set is equal to the previous value or more by one, set previous value to the current value, increase the score by the value, and add current value to the history array
     // if card value is not equal to or more than prevValue by one, lose one life and reset the current value to previous value
     if (value === prevValue || value === prevValue + 1) {
       setPrevValue(value);
@@ -96,7 +107,7 @@ const MemoraddIndex = () => {
     }
   }, [history]);
 
-  // if user has no lives or the current value is 10, the game ends
+  // if user has no lives or the current value is 10, reveal cards, show modal, and the game ends
   useEffect(() => {
     if (lives === 0 || value === 10) {
       handleShow();
@@ -104,8 +115,10 @@ const MemoraddIndex = () => {
     }
   }, [lives, value]);
 
+  // className for lives depending on the number
   const lifeStatus = classNames({ "healthy": lives === 3, "sufficient": lives === 2, "danger": lives <= 1 });
 
+  // map each card in the cards array and pass down props to the MemoraddCard component
   const displayNumbers = cards.map(card => {
     return (
       <MemoraddCard 

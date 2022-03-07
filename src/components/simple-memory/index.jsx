@@ -53,7 +53,7 @@ const SimpleMemoryIndex = () => {
     // this comparison will occur before setting the new state!
   };
 
-  // reset choices & increase turn
+  // reset choices & increase turn; set any true states back to false as needed
   const resetTurn = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
@@ -65,9 +65,10 @@ const SimpleMemoryIndex = () => {
   // compare two selected cards
   useEffect(() => {
     if (choiceTwo) {
-      // will only be disabled during duration of the check
+      // will only be disabled during duration of the check, don't want to be able to flip card back face down at this time
       setDisabled(true);
       
+      // if flipped card 1 is equal to flipped card 2, set match for the matching cards in the cards array to true; else leave the card alone
       if (choiceOne.src === choiceTwo.src) {
         setCards(prevCards => {
           return prevCards.map(card => {
@@ -85,11 +86,14 @@ const SimpleMemoryIndex = () => {
     }
   }, [choiceTwo]);
 
+  // start a new game
   useEffect(() => {
     shuffleCards();
   }, []);
 
+  // for the end of the game
   useEffect(() => {
+    // if all cards have matched set to true, display the game-end modal
     for (const card of cards) {
       if (!card.matched) {
         return null;
@@ -99,6 +103,7 @@ const SimpleMemoryIndex = () => {
 
   }, [cards]);
 
+  // map each card in the cards array and pass down props to the Card component
   const displayCards = cards.map(card => {
     return (
       <Card 
