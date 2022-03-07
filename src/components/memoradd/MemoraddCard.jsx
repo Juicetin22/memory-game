@@ -23,7 +23,7 @@ const NumberCard = (props) => {
       setValue(card.value);
       setTurn(prev => prev + 1);
       
-      if (lives > 1) {
+      if (lives > 1 && card.value !== 10) {
         setTimeout(() => {
           setFlipped(flipped);
           setTransition(false);
