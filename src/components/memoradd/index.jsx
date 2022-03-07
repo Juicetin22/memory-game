@@ -4,6 +4,7 @@ import MemoraddCard from "./MemoraddCard";
 import { Link } from "react-router-dom";
 import { Card, Modal, Button, Overlay, Tooltip } from "react-bootstrap";
 import Confetti from "react-confetti";
+import classNames from "classnames";
 
 const cardNumbers = [
   { "src": "https://img.icons8.com/small/512/000000/1.png", "value": 1 },
@@ -90,6 +91,8 @@ const MemoraddIndex = () => {
     }
   }, [lives, value])
 
+  const lifeStatus = classNames({ "healthy": lives === 3, "sufficient": lives === 2, "danger": lives <= 1 })
+
   const displayNumbers = cards.map(card => {
     return (
       <MemoraddCard 
@@ -123,7 +126,9 @@ const MemoraddIndex = () => {
               <Tooltip id="overlay-example" {...props}>
                 How to play:
                 <div className="rules">
-                  <p><strong>Mem0radd</strong> - The purpose of the game is to try to score as many points as possible. Try to remember the placement of the cards, and start the game by flipping over a card with number 1 on it. From there, you can either flip over a card of the same number OR a card with a number that is one greater than the previous card (Example flipping sequence: Card number 1 - Card number 1 - Card number 2 - Card number 3 - ... Card number 9, and finally Card number 0). Lose one life when you flip over a card that does not follow the numerical pattern. However, the game ends when you flip over the number 0 card at any point in the game!</p>
+                  <p><strong>Mem0radd</strong> - The purpose of the game is to try to score as many points as possible. Try to remember the placement of the cards, and start the game by flipping over a card with number 1 on it. From there, you can either flip over a card of the same number OR a card with a number that is one greater than the previous card.</p> 
+                  <p>Example flipping sequence: Card number 1 - Card number 1 - Card number 2 - Card number 3 - ... Card number 9, and finally Card number 0.</p>
+                  <p>Lose one life when you flip over a card that does not follow the numerical pattern. However, the game ends when you flip over the number 0 card at any point in the game!</p>
                 </div>
               </Tooltip>
             )}
@@ -139,11 +144,11 @@ const MemoraddIndex = () => {
             <Card.Body>
               <p>Current Score: {score} </p>
               <p>Turn: {turn}</p>
-              <p>Lives: {lives} </p>
+              <p>Lives: <span className={lifeStatus}>{lives}</span></p>
             </Card.Body>
           </Card>
           <button onClick={showCards} disabled={reveal || !help || transition} className="show-cards">Show Cards</button>
-          <p>Left: {help}</p>
+          <p>Left: <span className={!help && "danger"}>{help}</span></p>
         </div>
       </div>
 
