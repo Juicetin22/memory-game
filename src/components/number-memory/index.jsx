@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./index.scss";
 import NumberCard from "./NumberCard";
-import { Modal } from "react-bootstrap";
+import { Modal, Button, Overlay, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Confetti from "react-confetti";
 
@@ -36,6 +36,9 @@ const NumberMemoryIndex = () => {
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [helpShow, setHelpShow] = useState(false);
+  const target = useRef(null);
 
   // shuffle cards and add an id to each card every new game
   const shuffleCards = () => {
@@ -99,11 +102,26 @@ const NumberMemoryIndex = () => {
   })
   
   return (
-    <div>
+    <div onClick={() => helpShow ? setHelpShow(false) : null}>
       <div className="top">
         <Link to="/" className="link"><button className="back-button">← Back</button></Link>
         <h4>Number Memory Game</h4>
-        <button onClick={shuffleCards} className="new-game">New Game</button>
+        <div>
+          <button onClick={shuffleCards} className="new-game">New Game</button>
+          <Button variant="outline-info" ref={target} onClick={() => setHelpShow(!show)} className="game-help-button" >
+                ?
+              </Button>
+          <Overlay target={target.current} show={helpShow} placement="left-start" className="instructions">
+            {(props) => (
+              <Tooltip id="overlay-example" {...props}>
+                How to play:
+                <div className="rules">
+                  <p><strong>Numbers</strong> - Memorize the placement of the cards. Once they are face down, try to flip the cards in the correct order starting from 1 all the way to 9. Be careful flipping the X cards!</p>
+                </div>
+              </Tooltip>
+            )}
+          </Overlay>
+        </div>
       </div>
       <div className="number-grid">
         {displayNumbers}
