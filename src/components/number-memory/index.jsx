@@ -84,7 +84,7 @@ const NumberMemoryIndex = () => {
   }, [lives])
 
   useEffect(() => {
-    value ? setEnd(true) : setEnd(false)
+    turn ? setEnd(true) : setEnd(false)
   }, [show])
 
   const displayNumbers = cards.map(card => {
