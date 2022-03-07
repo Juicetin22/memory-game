@@ -30,6 +30,8 @@ const MemoraddIndex = () => {
   const [reveal, setReveal] = useState(false);
   const [lives, setLives] = useState(3);
   const [transition, setTransition] = useState(true);
+  const [history, setHistory] = useState([]);
+
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
@@ -55,6 +57,7 @@ const MemoraddIndex = () => {
     setReveal(false);
     setLives(3);
     setTransition(true);
+    setHistory([]);
     handleClose();
   };
 
@@ -75,23 +78,33 @@ const MemoraddIndex = () => {
     // if card value is not equal to or more than prevValue by one, lose one life and reset the current value to previous value
     if (value === prevValue || value === prevValue + 1) {
       setPrevValue(value);
-      setScore(prev => prev + value); 
+      setScore(prev => prev + value);
+      setHistory(prev => [...prev, value]);
     } else {
       setLives(prev => prev - 1);
       setValue(prevValue);
     }
   }, [turn]);
 
+  // determine bonus points
   useEffect(() => {
-    // if user has no lives or previous value is 10, the game ends
-    // note that we cannot use value instead, because value is always set regardless of clicking sequence, but prevValue is only set when user is correctly clicking the numbers in order
+    const h = history.length;
+
+    // if last three values in history are equal to each other, give bonus points (ie. three of same numbers were flipped)
+    if (h >= 3 && history[h - 1] === history[h - 2] && history[h - 1] === history[h - 3]) {
+      setScore(prev => prev + 5);
+    }
+  }, [history]);
+
+  // if user has no lives or the current value is 10, the game ends
+  useEffect(() => {
     if (lives === 0 || value === 10) {
       handleShow();
       setReveal(true);
     }
-  }, [lives, value])
+  }, [lives, value]);
 
-  const lifeStatus = classNames({ "healthy": lives === 3, "sufficient": lives === 2, "danger": lives <= 1 })
+  const lifeStatus = classNames({ "healthy": lives === 3, "sufficient": lives === 2, "danger": lives <= 1 });
 
   const displayNumbers = cards.map(card => {
     return (
@@ -147,6 +160,7 @@ const MemoraddIndex = () => {
               <p>Lives: <span className={lifeStatus}>{lives}</span></p>
             </Card.Body>
           </Card>
+          {/* disable show cards button while cards are being revealed, during transition periods, or when help count is 0 */}
           <button onClick={showCards} disabled={reveal || !help || transition} className="show-cards">Show Cards</button>
           <p>Left: <span className={!help && "danger"}>{help}</span></p>
         </div>
