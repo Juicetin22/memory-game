@@ -19,7 +19,7 @@
   height: fit-content;
   margin-top: 35px;
   margin-bottom: 20px;
-  background-color: rgb(248, 221, 198);
+  background-color: rgb(243, 222, 253);
   text-align: left;
 }
 
@@ -45,4 +45,16 @@
 
 .o {
   color: rgba(38, 224, 100, 0.884);
+}
+
+.healthy {
+  color: green;
+}
+
+.sufficient {
+  color: orange;
+}
+
+.danger {
+  color: red;
 }
