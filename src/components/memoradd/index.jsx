@@ -84,11 +84,11 @@ const MemoraddIndex = () => {
   useEffect(() => {
     // if user has no lives or previous value is 10, the game ends
     // note that we cannot use value instead, because value is always set regardless of clicking sequence, but prevValue is only set when user is correctly clicking the numbers in order
-    if (lives === 0 || prevValue === 10) {
+    if (lives === 0 || value === 10) {
       handleShow();
       setReveal(true);
     }
-  }, [lives, prevValue])
+  }, [lives, value])
 
   const displayNumbers = cards.map(card => {
     return (
