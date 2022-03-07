@@ -1,6 +1,6 @@
 # Memory Games
 
-Welcome! Memory Games is a react-based web application containing 3 simple card-flipping games that work your memory. Two of the card games may look familiar, but the third game is unique and something I came up with (it's nothing too crazy). Whether you're taking a break or want to just see what it's about, consider giving the games a try!
+Welcome! Memory Games is a react-based web application containing 3 simple card-flipping games that work your memory. Two of the card games may look familiar, but the third game is a bit more unique. Whether you're taking a break or want to just see what it's about, consider giving the games a try. Hope you enjoy!
 
 ## Games
 
