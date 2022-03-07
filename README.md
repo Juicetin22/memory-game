@@ -5,12 +5,15 @@ Welcome! Memory Games is a react-based web application containing 3 simple card-
 ## Games
 
 ### Matching Cards
-<!-- Template -->
-<!-- !["Screenshot of registration page"](https://github.com/RyanJohnson1612/fridge-app/blob/main/docs/registration-page.png) -->
+!["Gif of Matching Cards Game"](https://github.com/Juicetin22/memory-game/blob/main/docs/matching-cards.gif)
 
 ### Numbers
 
+!["Gif of Numbers Game"](https://github.com/Juicetin22/memory-game/blob/main/docs/numbers.gif)
+
 ### Mem0radd
+
+!["Gif of Mem0radd"](https://github.com/Juicetin22/memory-game/blob/main/docs/memoradd.gif)
 
 ## Getting Started
 
