@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./index.scss"
 import Card from "./Card";
-import { Modal } from "react-bootstrap";
+import { Button, Modal, Overlay, Tooltip } from "react-bootstrap";
 import Confetti from "react-confetti";
 import { Link } from "react-router-dom";
 
@@ -27,6 +27,9 @@ const SimpleMemoryIndex = () => {
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [helpShow, setHelpShow] = useState(false);
+  const target = useRef(null);
 
   // shuffle cards and add an id to each card every new game
   const shuffleCards = () => {
@@ -92,7 +95,7 @@ const SimpleMemoryIndex = () => {
         return null;
       }
     }
-    turns ? setShow(true) : setShow(false);
+    turns ? handleShow() : handleClose();
 
   }, [cards]);
 
@@ -109,11 +112,26 @@ const SimpleMemoryIndex = () => {
   });
 
   return (
-    <>
+    <div onClick={() => helpShow ? setHelpShow(false) : null}>
       <div className="top">
         <Link to="/" className="link"><button className="back-button">← Back</button></Link>
         <h4>Matching Memory Game</h4>
-        <button onClick={shuffleCards} className="new-game">New Game</button>
+        <div>
+          <button onClick={shuffleCards} className="new-game">New Game</button>
+          <Button variant="outline-info" ref={target} onClick={() => setHelpShow(!show)} className="game-help-button" >
+                ?
+              </Button>
+          <Overlay target={target.current} show={helpShow} placement="left-start" className="instructions">
+            {(props) => (
+              <Tooltip id="overlay-example" {...props}>
+                How to play:
+                <div className="rules">
+                  <p><strong>Matching Cards</strong> - Flip over two cards at a time and get them to match. Try to get all the pairs to match with the fewest turns possible!</p>
+                </div>
+              </Tooltip>
+            )}
+          </Overlay>
+        </div>
       </div>
       
       <Modal show={show} onHide={handleClose} className="win" animation={false} >
@@ -131,7 +149,7 @@ const SimpleMemoryIndex = () => {
         {displayCards}
       </div>
       <p>Turns: {turns}</p>
-    </>
+    </div>
   );
 }
 

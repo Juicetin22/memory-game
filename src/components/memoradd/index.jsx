@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './index.scss';
 import MemoraddCard from "./MemoraddCard";
 import { Link } from "react-router-dom";
-import { Card, Modal } from "react-bootstrap";
+import { Card, Modal, Button, Overlay, Tooltip } from "react-bootstrap";
 import Confetti from "react-confetti";
 
 const cardNumbers = [
@@ -33,6 +33,9 @@ const MemoraddIndex = () => {
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+
+  const [helpShow, setHelpShow] = useState(false);
+  const target = useRef(null);
 
   // shuffle cards and add an id to each card every new game, reset to initial states
   const shuffleCards = () => {
@@ -106,11 +109,26 @@ const MemoraddIndex = () => {
   })
   
   return (
-    <>
+    <div onClick={() => helpShow ? setHelpShow(false) : null}>
       <div className="top">
         <Link to="/" className="link"><button className="back-button">← Back</button></Link>
         <h4>Mem<span className="o">0</span>radd</h4>
-        <button onClick={shuffleCards} className="new-game">New Game</button>
+        <div>
+          <button onClick={shuffleCards} className="new-game">New Game</button>
+          <Button variant="outline-info" ref={target} onClick={() => setHelpShow(!show)} className="game-help-button" >
+                ?
+              </Button>
+          <Overlay target={target.current} show={helpShow} placement="left-start" className="instructions">
+            {(props) => (
+              <Tooltip id="overlay-example" {...props}>
+                How to play:
+                <div className="rules">
+                  <p><strong>Mem0radd</strong> - The purpose of the game is to try to score as many points as possible. Try to remember the placement of the cards, and start the game by flipping over a card with number 1 on it. From there, you can either flip over a card of the same number OR a card with a number that is one greater than the previous card (Example flipping sequence: Card number 1 - Card number 1 - Card number 2 - Card number 3 - ... Card number 9, and finally Card number 0). Lose one life when you flip over a card that does not follow the numerical pattern. However, the game ends when you flip over the number 0 card at any point in the game!</p>
+                </div>
+              </Tooltip>
+            )}
+          </Overlay>
+        </div>
       </div>
       <div className="memoradd-body">
         <div className="memoradd-grid">
@@ -139,7 +157,7 @@ const MemoraddIndex = () => {
           <p>Thanks for playing and feel free to try again! 😊</p>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   )
 }
 
