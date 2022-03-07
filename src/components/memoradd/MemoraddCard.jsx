@@ -3,26 +3,30 @@ import './MemoraddCard.scss';
 import ReactCardFlip from "react-card-flip";
 
 const NumberCard = (props) => {
+  // props passed down from index
   const { card, value, reveal, lives, show, transition, setValue, setTurn, setReveal, setTransition } = props;
 
+  // states that alter display of cards
+  // state that is used for ReactCardFlip
   const [flipped, setFlipped] = useState(false);
+  // when a correct card is flipped, opened state is true, which affect the card's className
   const [opened, setOpened] = useState(false);
 
   const handleFlip = () => {
+    // flip over card that is clicked and prevent other cards from being clicked
     setFlipped(!flipped);
     setTransition(true);
+    // set current value to the card value and increase turn count (which will trigger useEffect in index)
+    setValue(card.value);
+    setTurn(prev => prev + 1);
 
-    // if card flipped has value equal to current value or more by one, set card to open, set current value to the card value and increase turn count (which will trigger useEffect in index)
-    // if not, set current value to card value, increase turn count and flip card back face down
+    // if card flipped has value equal to current value or more by one, set card to open and remove transition period
+    // if not, flip card back face down and remove transition period after set time
     if (card.value === value || card.value === value + 1) {
       setOpened(true);
-      setValue(card.value);
-      setTurn(prev => prev + 1);
       setTransition(false);
     } else {
-      setValue(card.value);
-      setTurn(prev => prev + 1);
-      
+      // flip card back face down if user still has lives and the card flipped is not the 0 card
       if (lives > 1 && card.value !== 10) {
         setTimeout(() => {
           setFlipped(flipped);
@@ -32,6 +36,7 @@ const NumberCard = (props) => {
     }
   }
 
+  // game starts with cards face up, flip back down after 7 seconds
   useEffect(() => {
     setTimeout(() => {
       setFlipped(!flipped);
@@ -39,7 +44,8 @@ const NumberCard = (props) => {
     }, 7000);
   }, [])
 
-  // flip the card if reveal prop is true (which it is when you click 'Show Cards') and card is not front showing; then flip back after set time if game is not over
+  // flip the card if reveal prop is true (which it is when you click 'Show Cards' or when game ends) AND card is face down
+  // if game is not over, flip card face down after set time 
   useEffect(() => {
     if (reveal && flipped) {
       setFlipped(!flipped);
